@@ -1,5 +1,5 @@
 import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
+// import edu.princeton.cs.algs4.StdOut; // Not used
 import edu.princeton.cs.algs4.StdRandom;
 public class RandomWord {
     public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class RandomWord {
             counter++;
             name = StdIn.readString();
 //            System.out.println(name);
-            float prob = (float) 1/counter;
+            double prob = (double) 1/counter;
 //            System.out.println(prob);
             if (StdRandom.bernoulli(prob)) {
                 winner = name;
