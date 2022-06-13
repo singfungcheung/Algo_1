@@ -51,7 +51,7 @@ public class main {
 //        x.open(4,2);
 //        x.percolates();
         Stopwatch x = new Stopwatch();
-        PercolationStats sample = new PercolationStats(300, 100);
+        PercolationStats sample = new PercolationStats(200, 100);
         System.out.println("mean                    = " + sample.mean());
         System.out.println("stddev                  = " + sample.stddev());
         System.out.println("95% confidence interval = [" + sample.confidenceLo() + ", " + sample.confidenceHi() + "]");

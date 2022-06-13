@@ -1,10 +1,10 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    int [][] grid;
-    int dimension;
-    int numOpenSites;
-    WeightedQuickUnionUF sample;
+    private int [][] grid;
+    private final int dimension;
+    private int numOpenSites;
+    private final WeightedQuickUnionUF sample;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
@@ -22,7 +22,7 @@ public class Percolation {
 
         // Connect all the top in this.sample for virtual top site.
         for (int i = 1; i < this.dimension; i++) {
-            this.sample.union(0,i);
+            this.sample.union(0, i);
         }
 
         // Print the grid to make sure it looks correct.
@@ -34,14 +34,14 @@ public class Percolation {
     public void open(int row, int col) {
         // Check to make sure row and col are valid.
         try {
-            check(row,col);
+            check(row, col);
         }
-        catch(IllegalArgumentException e) {
+        catch (IllegalArgumentException e) {
 //            System.out.println("Invalid input!");
 //            System.out.println("Row is " + row + " and col is " + col);
         }
 
-        if (isOpen(row, col) == false) {
+        if (!isOpen(row, col)) {
             this.grid[row - 1][col - 1] = 1;
 
             // increment the value of numOpenSites;
@@ -77,9 +77,9 @@ public class Percolation {
     public boolean isOpen(int row, int col) {
         // Check to make sure row and col are valid.
         try {
-            check(row,col);
+            check(row, col);
         }
-        catch(IllegalArgumentException e) {
+        catch (IllegalArgumentException e) {
 //            System.out.println("Invalid input!");
 //            System.out.println("Row is " + row + " and col is " + col);
             return false;
@@ -97,9 +97,9 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         // Check to make sure row and col are valid.
         try {
-            check(row,col);
+            check(row, col);
         }
-        catch(IllegalArgumentException e) {
+        catch (IllegalArgumentException e) {
 //            System.out.println("Invalid input!");
 //            System.out.println("Row is " + row + " and col is " + col);
             return false;
@@ -129,19 +129,19 @@ public class Percolation {
     }
 
     // Print the grid
-    public void show() {
-        for (int i = 0; i < this.dimension; i ++) {
-            for (int j = 0; j < this.dimension; j++) {
-                System.out.print(this.grid[i][j]);
-            }
-            System.out.println();
-        }
-
-        System.out.println();
-    }
+//    private void show() {
+//        for (int i = 0; i < this.dimension; i++) {
+//            for (int j = 0; j < this.dimension; j++) {
+//                System.out.print(this.grid[i][j]);
+//            }
+//            System.out.println();
+//        }
+//
+//        System.out.println();
+//    }
 
     // Check to make sure row and col values are valid
-    public void check(int row, int col) {
+    private void check(int row, int col) {
         if (row <= 0 || row > this.dimension || col <= 0 || col > this.dimension) {
             throw new IllegalArgumentException("Please enter a value greater than 0!");
         }

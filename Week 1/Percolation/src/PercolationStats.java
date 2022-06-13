@@ -3,11 +3,12 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
 
-    double [] data;
-    int dimensions;
-    int trials;
-    Percolation sampleData;
-    double mean;
+    private static final double CONFIDENCE_95 = 1.96;
+    private double [] data;
+    private final int dimensions;
+    private final int trials;
+    private Percolation sampleData;
+    private double mean;
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
         // Check to make sure inputs are correct (greater than 0)
@@ -43,7 +44,7 @@ public class PercolationStats {
                 // get the row and col values
                 row = randomInt/this.dimensions + 1;
 //                System.out.println("row is " + row);
-                col = randomInt%this.dimensions + 1;
+                col = randomInt % this.dimensions + 1;
 //                System.out.println("col is " + col);
 
                 // check to see if the site is already open.
@@ -65,8 +66,9 @@ public class PercolationStats {
 //            System.out.println("fraction is " + fractionOpenSites);
         }
 
+        this.mean = StdStats.mean(this.data);
         // calculate the mean value of data.
-        return this.mean = StdStats.mean(this.data);
+        return this.mean;
     }
 
     // sample standard deviation of percolation threshold
@@ -76,12 +78,12 @@ public class PercolationStats {
 
     // low endpoint of 95% confidence interval
     public double confidenceLo() {
-        return this.mean - (1.96*this.stddev())/Math.sqrt(trials);
+        return this.mean - (this.CONFIDENCE_95*this.stddev())/Math.sqrt(trials);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return this.mean + (1.96*this.stddev())/Math.sqrt(trials);
+        return this.mean + (this.CONFIDENCE_95*this.stddev())/Math.sqrt(trials);
     }
 
     // test client (see below)
@@ -93,8 +95,8 @@ public class PercolationStats {
     }
 
     // Check to make sure the n and trial values are valid
-    public void check(int n, int trials) {
-        if (n <= 0 || trials <= 0) {
+    private void check(int n, int numTrials) {
+        if (n <= 0 || numTrials <= 0) {
             throw new IllegalArgumentException("Please enter a value greater than 0!");
         }
     }
