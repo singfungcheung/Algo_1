@@ -1,4 +1,7 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
+
 public class main {
     public static void main(String[] args) {
 //        Percolation x = new Percolation(5);
@@ -24,27 +27,31 @@ public class main {
 //        System.out.println(x.find(2));
 //        System.out.println(x.find(3));
 
-        Percolation x = new Percolation(5);
-        x.open(3,2);
-        x.isOpen(3,2);
-        System.out.println(x.sample.find(x.dimension*(2) + 1));
-        x.open(2,3);
-        x.open(2,2);
-        System.out.println(x.sample.find(x.dimension*(2) + 1));
-        System.out.println(x.sample.find(x.dimension*(1) + 1));
-        System.out.println(x.sample.find(x.dimension*(1) + 2));
-        x.percolates();
-        x.open(1,2);
-        x.percolates();
-        x.open(5,2);
-        x.percolates();
-        x.open(4,1);
-        x.open(4,3);
-        x.open(4,4);
-        x.open(4,5);
-        x.percolates();
-        x.open(4,2);
-        x.percolates();
+//        Percolation x = new Percolation(5);
+//        x.open(3,2);
+//        x.isOpen(3,2);
+//        System.out.println(x.sample.find(x.dimension*(2) + 1));
+//        x.open(2,3);
+//        x.open(2,2);
+//        System.out.println(x.sample.find(x.dimension*(2) + 1));
+//        System.out.println(x.sample.find(x.dimension*(1) + 1));
+//        System.out.println(x.sample.find(x.dimension*(1) + 2));
+//        x.percolates();
+//        x.open(1,2);
+//        x.percolates();
+//        x.open(5,2);
+//        x.percolates();
+//        x.open(4,1);
+//        x.open(4,3);
+//        x.open(4,4);
+//        x.open(4,5);
+//        x.percolates();
+//        x.open(4,2);
+//        x.percolates();
+        PercolationStats sample = new PercolationStats(2, 1);
+        System.out.println("mean                    = " + sample.mean());
+        System.out.println("stddev                  = " + sample.stddev());
+        System.out.println("95% confidence interval = [" + sample.confidenceLo() + ", " + sample.confidenceHi() + "]");
 
     }
 }

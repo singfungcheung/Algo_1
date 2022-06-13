@@ -26,7 +26,7 @@ public class Percolation {
         }
 
         // Print the grid to make sure it looks correct.
-        show();
+        // show();
 
     }
 
@@ -37,7 +37,8 @@ public class Percolation {
             check(row,col);
         }
         catch(IllegalArgumentException e) {
-            System.out.println("Invalid input!");
+//            System.out.println("Invalid input!");
+//            System.out.println("Row is " + row + " and col is " + col);
         }
 
         if (isOpen(row, col) == false) {
@@ -69,7 +70,7 @@ public class Percolation {
         }
 
         // Print the grid to make sure it looks correct.
-        show();
+        // show();
     }
 
     // is the site (row, col) open?
@@ -79,15 +80,16 @@ public class Percolation {
             check(row,col);
         }
         catch(IllegalArgumentException e) {
-            System.out.println("Invalid input!");
+//            System.out.println("Invalid input!");
+//            System.out.println("Row is " + row + " and col is " + col);
             return false;
         }
 
         if (this.grid[row-1][col-1] == 1) {
-            System.out.println("true");
+            // System.out.println("true");
             return true;
         }
-        System.out.println("false");
+        // System.out.println("false");
         return false;
     }
 
@@ -98,7 +100,8 @@ public class Percolation {
             check(row,col);
         }
         catch(IllegalArgumentException e) {
-            System.out.println("Invalid input!");
+//            System.out.println("Invalid input!");
+//            System.out.println("Row is " + row + " and col is " + col);
             return false;
         }
 
@@ -121,7 +124,7 @@ public class Percolation {
             }
         }
         // None found to percolate. So return false.
-        System.out.println("Does not percolate...");
+        // System.out.println("Does not percolate...");
         return false;
     }
 
