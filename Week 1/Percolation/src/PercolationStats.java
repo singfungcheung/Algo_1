@@ -7,15 +7,17 @@ public class PercolationStats {
     int dimensions;
     int trials;
     Percolation sampleData;
+    double mean;
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
         // Check to make sure inputs are correct (greater than 0)
         check(n, trials);
 
         // Instantiate the variables
-        this.data = new double[n];
+        this.data = new double[trials];
         this.dimensions = n;
         this.trials = trials;
+        this.mean = 0;
 
         // Instantiate a Percolation object
         this.sampleData = new Percolation(n);
@@ -29,9 +31,11 @@ public class PercolationStats {
         int col = 0;
         int randomInt = 0;
 
-        for (int i = 0; i <= this.trials; i++) {
+        for (int i = 0; i < this.trials; i++) {
             // while loop (while the grid doesn't percolate. Keep looping until it percolates)
             fractionOpenSites = 0;
+            // reset the percolation object for the next trial.
+            this.sampleData = new Percolation(this.dimensions);
             while (!this.sampleData.percolates()) {
                 // generate a random integer between [1,n*n]
                 randomInt = StdRandom.uniform(0, this.dimensions * this.dimensions);
@@ -58,11 +62,11 @@ public class PercolationStats {
             // Calculate the fractionOpenSites (divide by this.dimension*this.dimension) and append into data array.
             fractionOpenSites /= (this.dimensions * this.dimensions);
             this.data[i] = fractionOpenSites;
-            System.out.println("fraction is " + fractionOpenSites);
+//            System.out.println("fraction is " + fractionOpenSites);
         }
 
         // calculate the mean value of data.
-        return StdStats.mean(this.data);
+        return this.mean = StdStats.mean(this.data);
     }
 
     // sample standard deviation of percolation threshold
@@ -72,12 +76,12 @@ public class PercolationStats {
 
     // low endpoint of 95% confidence interval
     public double confidenceLo() {
-        return this.mean() - (1.96*this.stddev())/Math.sqrt(trials);
+        return this.mean - (1.96*this.stddev())/Math.sqrt(trials);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return this.mean() + (1.96*this.stddev())/Math.sqrt(trials);
+        return this.mean + (1.96*this.stddev())/Math.sqrt(trials);
     }
 
     // test client (see below)

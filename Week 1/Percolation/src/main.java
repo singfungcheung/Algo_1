@@ -1,6 +1,8 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
+import edu.princeton.cs.algs4.Stopwatch;
+
 
 public class main {
     public static void main(String[] args) {
@@ -48,10 +50,12 @@ public class main {
 //        x.percolates();
 //        x.open(4,2);
 //        x.percolates();
-        PercolationStats sample = new PercolationStats(2, 1);
+        Stopwatch x = new Stopwatch();
+        PercolationStats sample = new PercolationStats(300, 100);
         System.out.println("mean                    = " + sample.mean());
         System.out.println("stddev                  = " + sample.stddev());
         System.out.println("95% confidence interval = [" + sample.confidenceLo() + ", " + sample.confidenceHi() + "]");
+        System.out.println(x.elapsedTime());
 
     }
 }

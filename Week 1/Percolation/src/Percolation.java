@@ -119,12 +119,12 @@ public class Percolation {
         // Call isFull on the bottom row
         for (int i = 1; i <= this.dimension; i++) {
             if (isFull(this.dimension, i)) {
-                System.out.println("Percolates!");
+//                System.out.println("Percolates!");
                 return true;
             }
         }
         // None found to percolate. So return false.
-        // System.out.println("Does not percolate...");
+//        System.out.println("Does not percolate...");
         return false;
     }
 
