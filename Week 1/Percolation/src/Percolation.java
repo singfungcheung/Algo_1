@@ -1,14 +1,20 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private int [][] grid;
+    private boolean [][] grid;
     private final int dimension;
     private int numOpenSites;
     private final WeightedQuickUnionUF sample;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
-        this.grid = new int[n][n];
+
+        // check the input n to see if it is less than or equal to 0.
+        if (n <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.grid = new boolean[n][n];
         this.dimension = n;
         this.numOpenSites = 0;
         this.sample = new WeightedQuickUnionUF(n*n);
@@ -16,7 +22,7 @@ public class Percolation {
         // Set all the cells in the grid to zero.
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < this.dimension; j++) {
-                this.grid[i][j] = 0;
+                this.grid[i][j] = false;
             }
         }
 
@@ -32,41 +38,45 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
+
         // Check to make sure row and col are valid.
-        try {
-            check(row, col);
-        }
-        catch (IllegalArgumentException e) {
-//            System.out.println("Invalid input!");
-//            System.out.println("Row is " + row + " and col is " + col);
-        }
+        check(row, col);
 
         if (!isOpen(row, col)) {
-            this.grid[row - 1][col - 1] = 1;
+            this.grid[row - 1][col - 1] = true;
 
             // increment the value of numOpenSites;
             this.numOpenSites++;
 
             // see if there are adjacent cells and connect them (union)
             // Check the top of the input cell
-            if (isOpen(row - 1, col)) {
-                this.sample.union(this.dimension*(row - 1) + (col - 1), this.dimension*((row - 1) - 1) + (col - 1));
+            if (row - 1 > 0) {
+                if (isOpen(row - 1, col)) {
+                    this.sample.union(this.dimension*(row - 1) + (col - 1), this.dimension*((row - 1) - 1) + (col - 1));
+                }
             }
 
             // Check the left of the input cell
-            if (isOpen(row, col - 1)) {
-                this.sample.union(this.dimension*(row - 1) + (col - 1), this.dimension*(row - 1) + ((col - 1) - 1));
+            if (col - 1 > 0) {
+                if (isOpen(row, col - 1)) {
+                    this.sample.union(this.dimension*(row - 1) + (col - 1), this.dimension*(row - 1) + ((col - 1) - 1));
+                }
             }
 
             // Check the bottom of the input cell
-            if (isOpen(row + 1, col)) {
-                this.sample.union(this.dimension*(row - 1) + (col - 1), this.dimension*row + (col - 1));
+            if (row + 1 <= this.dimension) {
+                if (isOpen(row + 1, col)) {
+                    this.sample.union(this.dimension*(row - 1) + (col - 1), this.dimension*row + (col - 1));
+                }
             }
 
             // Check the right of the input cell
-            if (isOpen(row, col + 1)) {
-                this.sample.union(this.dimension * (row - 1) + (col - 1), this.dimension * (row - 1) + col);
+            if (col + 1 <= this.dimension) {
+                if (isOpen(row, col + 1)) {
+                    this.sample.union(this.dimension * (row - 1) + (col - 1), this.dimension * (row - 1) + col);
+                }
             }
+
         }
 
         // Print the grid to make sure it looks correct.
@@ -75,17 +85,11 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-        // Check to make sure row and col are valid.
-        try {
-            check(row, col);
-        }
-        catch (IllegalArgumentException e) {
-//            System.out.println("Invalid input!");
-//            System.out.println("Row is " + row + " and col is " + col);
-            return false;
-        }
 
-        if (this.grid[row-1][col-1] == 1) {
+        // Check to make sure row and col are valid.
+        check(row, col);
+
+        if (this.grid[row-1][col-1] == true) {
             // System.out.println("true");
             return true;
         }
@@ -95,18 +99,13 @@ public class Percolation {
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
+
         // Check to make sure row and col are valid.
-        try {
-            check(row, col);
-        }
-        catch (IllegalArgumentException e) {
-//            System.out.println("Invalid input!");
-//            System.out.println("Row is " + row + " and col is " + col);
-            return false;
-        }
+        check(row, col);
 
         // Just check if the sample cell connects with virtual top.
-        return this.sample.find(this.dimension*(row - 1) + (col - 1)) == this.sample.find(0);
+        // Make sure the site is already opened.
+        return (this.sample.find(this.dimension*(row - 1) + (col - 1)) == this.sample.find(0)) && this.isOpen(row, col);
     }
 
     // returns the number of open sites

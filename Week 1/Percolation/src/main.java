@@ -6,7 +6,8 @@ import edu.princeton.cs.algs4.Stopwatch;
 
 public class main {
     public static void main(String[] args) {
-//        Percolation x = new Percolation(5);
+//        Percolation x = new Percolation(10);
+//        x.open(-1,5);
 //        //x.open(0,3);
 //        //System.out.println("does this run");
 //        x.open(3,5);
