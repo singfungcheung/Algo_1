@@ -9,6 +9,8 @@ public class PercolationStats {
     private final int trials;
     private Percolation sampleData;
     private double mean;
+    private boolean didMeanRun;
+
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
         // Check to make sure inputs are correct (greater than 0)
@@ -19,9 +21,8 @@ public class PercolationStats {
         this.dimensions = n;
         this.trials = trials;
         this.mean = 0;
+        this.didMeanRun = false;
 
-        // Instantiate a Percolation object
-        this.sampleData = new Percolation(n);
     }
 
     // sample mean of percolation threshold
@@ -48,14 +49,13 @@ public class PercolationStats {
 //                System.out.println("col is " + col);
 
                 // check to see if the site is already open.
-                // If it is, continue the while loop (so fractionOpenSites don't get incremented).
-                if (this.sampleData.isOpen(row, col)) {
-                    continue;
-                } else {
-                    // open the site at row, col and increment fractionOpenSites.
-                    this.sampleData.open(row, col);
+                // If it is not, increment fractionOpenSites.
+                if (!this.sampleData.isOpen(row, col)) {
                     fractionOpenSites++;
                 }
+                // open the site at row, col and increment fractionOpenSites.
+                // Tests require every iteration to open the site.
+                this.sampleData.open(row, col);
 
             }
 
@@ -67,23 +67,39 @@ public class PercolationStats {
         }
 
         this.mean = StdStats.mean(this.data);
-        // calculate the mean value of data.
+        // calculate the mean value of data and set didMeanRun = true.
+        didMeanRun = true;
         return this.mean;
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
+
+        // Check to see if mean() function ran. If not, run it!
+        if (!didMeanRun) {
+            this.mean();
+        }
+
         return StdStats.stddev(this.data);
     }
 
     // low endpoint of 95% confidence interval
     public double confidenceLo() {
-        return this.mean - (this.CONFIDENCE_95*this.stddev())/Math.sqrt(trials);
+        // Check to see if mean() function ran. If not, run it!
+        if (!didMeanRun) {
+            this.mean();
+        }
+
+        return this.mean - (CONFIDENCE_95*this.stddev())/Math.sqrt(trials);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return this.mean + (this.CONFIDENCE_95*this.stddev())/Math.sqrt(trials);
+        // Check to see if mean() function ran. If not, run it!
+        if (!didMeanRun) {
+            this.mean();
+        }
+        return this.mean + (CONFIDENCE_95*this.stddev())/Math.sqrt(trials);
     }
 
     // test client (see below)

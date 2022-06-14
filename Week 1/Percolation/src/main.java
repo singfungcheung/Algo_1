@@ -53,9 +53,14 @@ public class main {
 //        x.percolates();
         Stopwatch x = new Stopwatch();
         PercolationStats sample = new PercolationStats(200, 100);
+//        PercolationStats y = new PercolationStats(2, 10000);
         System.out.println("mean                    = " + sample.mean());
         System.out.println("stddev                  = " + sample.stddev());
         System.out.println("95% confidence interval = [" + sample.confidenceLo() + ", " + sample.confidenceHi() + "]");
+//
+//        System.out.println("mean                    = " + y.mean());
+//        System.out.println("stddev                  = " + y.stddev());
+//        System.out.println("95% confidence interval = [" + y.confidenceLo() + ", " + y.confidenceHi() + "]");
         System.out.println(x.elapsedTime());
 
     }

@@ -5,6 +5,7 @@ public class Percolation {
     private final int dimension;
     private int numOpenSites;
     private final WeightedQuickUnionUF sample;
+    private boolean found;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
@@ -18,6 +19,7 @@ public class Percolation {
         this.dimension = n;
         this.numOpenSites = 0;
         this.sample = new WeightedQuickUnionUF(n*n);
+        this.found = false;
 
         // Set all the cells in the grid to zero.
         for (int i = 0; i < this.dimension; i++) {
@@ -27,9 +29,13 @@ public class Percolation {
         }
 
         // Connect all the top in this.sample for virtual top site.
+        // Connect all the bottom in this.sample for virtual bottom site.
         for (int i = 1; i < this.dimension; i++) {
             this.sample.union(0, i);
+            this.sample.union(this.dimension*(this.dimension - 1), this.dimension*(this.dimension - 1) + i);
         }
+
+
 
         // Print the grid to make sure it looks correct.
         // show();
@@ -89,12 +95,8 @@ public class Percolation {
         // Check to make sure row and col are valid.
         check(row, col);
 
-        if (this.grid[row-1][col-1] == true) {
-            // System.out.println("true");
-            return true;
-        }
-        // System.out.println("false");
-        return false;
+        return this.grid[row-1][col-1];
+
     }
 
     // is the site (row, col) full?
@@ -105,7 +107,10 @@ public class Percolation {
 
         // Just check if the sample cell connects with virtual top.
         // Make sure the site is already opened.
-        return (this.sample.find(this.dimension*(row - 1) + (col - 1)) == this.sample.find(0)) && this.isOpen(row, col);
+        if (isOpen(row, col)) {
+            return (this.sample.find(this.dimension*(row - 1) + (col - 1)) == this.sample.find(0));
+        }
+        return false;
     }
 
     // returns the number of open sites
@@ -115,16 +120,19 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        // Call isFull on the bottom row
-        for (int i = 1; i <= this.dimension; i++) {
-            if (isFull(this.dimension, i)) {
-//                System.out.println("Percolates!");
-                return true;
-            }
-        }
-        // None found to percolate. So return false.
-//        System.out.println("Does not percolate...");
-        return false;
+
+//        // Call isFull on the bottom row
+//        for (int i = 1; i <= this.dimension; i++) {
+//            if (isFull(this.dimension, i)) {
+////                System.out.println("Percolates!");
+//                found = true;
+//                break;
+//            }
+//        }
+//        // None found to percolate. So return false.
+////        System.out.println("Does not percolate...");
+//        return found;
+        return this.sample.find(0) == this.sample.find(this.dimension*this.dimension - 1);
     }
 
     // Print the grid
